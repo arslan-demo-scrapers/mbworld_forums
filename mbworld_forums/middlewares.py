@@ -7,6 +7,9 @@ from scrapy import signals
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
+from w3lib.http import basic_auth_header
+
+from mbworld_forums.mbworld_forums.config.env_config import EnvConfig
 
 
 class MbworldForumsSpiderMiddleware:
@@ -75,6 +78,7 @@ class MbworldForumsDownloaderMiddleware:
         # - or return a Request object
         # - or raise IgnoreRequest: process_exception() methods of
         #   installed downloader middleware will be called
+        request.headers['Proxy-Authorization'] = basic_auth_header(EnvConfig.PROXY_USERNAME, EnvConfig.PROXY_PASSWORD)
         return None
 
     def process_response(self, request, response, spider):

@@ -6,6 +6,7 @@
 #     https://docs.scrapy.org/en/latest/topics/settings.html
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+from pathlib import Path
 
 BOT_NAME = "mbworld_forums"
 
@@ -56,7 +57,8 @@ DOWNLOADER_MIDDLEWARES = {
 }
 
 # ROTATING_PROXY_LIST = []
-ROTATING_PROXY_LIST_PATH = '../proxies.txt'
+BASE_DIR = Path(__file__).resolve().parent.parent
+ROTATING_PROXY_LIST_PATH = BASE_DIR / "resources" / "proxies.txt"
 ROTATING_PROXY_BAN_POLICY = 'mbworld_forums.policy.MyPolicy'
 
 # Enable or disable extensions

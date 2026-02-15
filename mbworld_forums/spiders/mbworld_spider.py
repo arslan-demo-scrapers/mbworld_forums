@@ -4,6 +4,10 @@ from datetime import date, timedelta
 from scrapy import Request
 from scrapy.crawler import CrawlerProcess
 
+try:
+    from mbworld_forums.mbworld_forums.local_elasticsearch import ElasticSearchConfig
+except Exception as err:
+    from mbworld_forums.mbworld_forums.elastic_search import ElasticSearchConfig
 from mbworld_forums.mbworld_forums.spiders.base_spider import BaseSpider
 from mbworld_forums.mbworld_forums.static import file_headers, forum_meta_filepath
 from mbworld_forums.mbworld_forums.utils.clean_utils import clean
@@ -40,6 +44,7 @@ class MBWorldSpider(BaseSpider):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.elastic_search = ElasticSearchConfig(forum_index=self.index_arg or "mbworld")
         self.scraped_message_ids = self.get_scraped_threads_ids(self.filepath)
         self.forum_paths = self.get_forum_paths(self.forum_meta_filepath)
 
@@ -109,6 +114,8 @@ class MBWorldSpider(BaseSpider):
                 self.scraped_message_ids.append(pid)
             except Exception as err:
                 print(err)
+
+        self.elastic_search.insert_bulk(threads)
 
         yield from response.follow_all(css='a[rel="next"]:not([href="javascript:void(0)"])',
                                        callback=self.parse_thread, meta=response.meta, headers=self.headers)

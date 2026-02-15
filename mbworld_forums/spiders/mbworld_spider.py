@@ -5,7 +5,7 @@ from scrapy import Request
 from scrapy.crawler import CrawlerProcess
 
 try:
-    from mbworld_forums.mbworld_forums.local_elasticsearch import ElasticSearchConfig
+    from mbworld_forums.mbworld_forums.local_elastic_search import ElasticSearchConfig
 except Exception as err:
     from mbworld_forums.mbworld_forums.elastic_search import ElasticSearchConfig
 from mbworld_forums.mbworld_forums.spiders.base_spider import BaseSpider

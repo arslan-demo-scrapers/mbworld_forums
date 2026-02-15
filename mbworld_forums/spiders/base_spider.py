@@ -10,7 +10,7 @@ from mbworld_forums.mbworld_forums.utils.file_utils import write_to_csv, delete_
     get_csv_records, get_json_records, get_jl_records
 
 try:
-    from mbworld_forums.mbworld_forums.local_elasticsearch import ElasticSearchConfig
+    from mbworld_forums.mbworld_forums.local_elastic_search import ElasticSearchConfig
 except Exception as err:
     from mbworld_forums.mbworld_forums.elastic_search import ElasticSearchConfig
 
